@@ -33,13 +33,13 @@ public class ThreadPoolExecutorRejectNewTaskDemo {
 //        threadPoolFullToRejectNewTask();
 
         // 模拟线程池被关闭(shutdown)后, 继续向其提交新任务将会被拒绝的场景
-        showdownThreadPoolToRejectNewTask();
+        shutdownThreadPoolToRejectNewTask();
     }
 
     /**
      * 模拟线程池被关闭(shutdown)后, 继续向其提交新任务将会被拒绝的场景
      */
-    private static void showdownThreadPoolToRejectNewTask() {
+    private static void shutdownThreadPoolToRejectNewTask() {
         MyRunnable r = new MyRunnable();
 
         int cycleCount = Math.max(MAX_POOL_SIZE - 1, 0);
