@@ -70,13 +70,24 @@ public class ThreadPoolExecutorRejectNewTaskDemo {
      */
     private static void threadPoolFullToRejectNewTask() {
         MyRunnable r = new MyRunnable();
-        // 循环提交任务的总次数. 该总次数比"线程池的最大线程容量和阻塞队列的容量之和"还要多一个1,
-        // 用以验证线程池中 RejectedExecutionHandler 在此情况下的执行策略.
-        int cycleCount = MAX_POOL_SIZE + QUEUE_CAPACITY + 1;
+        // 循环提交任务的总次数. 该总次数等于"线程池的最大线程容量和阻塞队列的容量之和", 在执行完
+        // 该循环后, 线程池和阻塞队列都已满.
+        int cycleCount = MAX_POOL_SIZE + QUEUE_CAPACITY;
 
         for (int i = 0; i < cycleCount; i++) {
             System.out.println("提交任务" + i);
             THREAD_POOL_EXECUTOR.execute(r);
+        }
+        // 当前已提交的任务数
+        int tasksCount = cycleCount;
+
+        // 在线程池和阻塞队列都已满的情况下, 继续提交任务.
+        try {
+            System.out.println("提交任务" + (tasksCount));
+            Thread.sleep(10);
+            THREAD_POOL_EXECUTOR.execute(r);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
